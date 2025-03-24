@@ -10,10 +10,13 @@ class TodoController extends Controller
 {
     public function index()
     {
+
         $todo = new Todo();
         $todos = $todo->all();
+    
 
         return view('todo.index', ['todos' => $todos]);
+        //第二引数は何処参照
     }
     public function create()
     {
@@ -22,15 +25,21 @@ class TodoController extends Controller
     public function store(Request $request)
     {
        
-        $inputs = $request->all(); // 変更
-        
+        $inputs = $request->all(); 
         $todo = new Todo();
-        $todo->fill($inputs); // 変更
+        $todo->fill($inputs); 
+    
         $todo->save();
     
         return redirect()->route('todo.index');
     }
+    public function show($id)
+{
+    $model = new Todo();
+    $todo = $model->find($id);
     
+    return view('todo.show', ['todo' => $todo]); 
+}
     
 }
 
