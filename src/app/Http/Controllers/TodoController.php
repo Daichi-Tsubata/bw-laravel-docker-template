@@ -8,15 +8,17 @@ use Illuminate\Http\Request;
 
 class TodoController extends Controller
 {
+    private $todo; // 追記
+    public function __construct(Todo $todo)
+    {
+        $this->todo = $todo; // 追記
+    }
     public function index()
     {
 
-        $todo = new Todo();
-        $todos = $todo->all();
-    
+        $todos = $this->todo->all();
 
         return view('todo.index', ['todos' => $todos]);
-        //第二引数は何処参照
     }
     public function create()
     {
@@ -26,19 +28,16 @@ class TodoController extends Controller
     {
        
         $inputs = $request->all(); 
-        $todo = new Todo();
-        $todo->fill($inputs); 
-    
-        $todo->save();
+
+        $this->todo->fill($inputs); // 変更
+        $this->todo->save(); // 変更
     
         return redirect()->route('todo.index');
     }
     public function show($id)
 {
-    $model = new Todo();
-    $todo = $model->find($id);
-    
-    return view('todo.show', ['todo' => $todo]); 
+    $todo = $this->todo->find($id);
+    return view('todo.show', ['todo' => $todo]);
 }
     
 }
