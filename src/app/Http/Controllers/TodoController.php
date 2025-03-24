@@ -45,6 +45,20 @@ class TodoController extends Controller
     $todo = Todo::findOrFail($id);
     return view('todo.edit', ['todo' => $todo]);
 }
+public function update(Request $request, $id) // 第1引数: リクエスト情報の取得　第2引数: ルートパラメータの取得
+{
+     // フォームから送信された値を取得
+     $inputs = $request->all();
+
+     // 更新対象のデータを取得
+     $todo = Todo::findOrFail($id);
+ 
+     // 更新したい値を代入して、データベースを更新
+     $todo->fill($inputs)->save();
+ 
+     // 更新後、一覧ページへリダイレクト
+     return redirect()->route('todo.show', $todo->id); // 追記
+}
     
 }
 
