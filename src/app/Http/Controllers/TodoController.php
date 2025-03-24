@@ -58,6 +58,13 @@ public function update(TodoRequest $request, $id)  // 第1引数: リクエス�
      // 更新後、一覧ページへリダイレクト
      return redirect()->route('todo.show', $todo->id); // 追記
 }
-    
+public function delete($id)
+{
+    // TODO: 削除対象のレコードの情報を持つTodoモデルのインスタンスを取得
+    $todo = Todo::find($id);
+    $todo->delete(); 
+
+    return redirect()->route('todo.index');
+} 
 }
 
